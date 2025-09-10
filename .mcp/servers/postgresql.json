@@ -1,0 +1,153 @@
+{
+  "name": "postgresql",
+  "display_name": "PostgreSQL MCP Server",
+  "description": "Direct PostgreSQL database operations for Connected Banking Platform",
+  "category": "database",
+  "npm_package": "@modelcontextprotocol/server-postgres",
+  "version": "latest",
+  "priority": "high",
+  "banking_relevance": "critical",
+  
+  "configuration": {
+    "connection": {
+      "host": "localhost",
+      "port": 5433,
+      "database": "connected_banking", 
+      "user": "cbadmin",
+      "password": "${POSTGRES_PASSWORD}",
+      "ssl": false
+    },
+    
+    "security": {
+      "read_only": false,
+      "allowed_schemas": ["public"],
+      "restricted_tables": [
+        "auth_tokens",
+        "audit_logs", 
+        "sensitive_merchant_data"
+      ],
+      "audit_logging": true,
+      "row_level_security": true
+    },
+    
+    "performance": {
+      "connection_pool_size": 5,
+      "query_timeout": 30000,
+      "max_query_length": 10000
+    }
+  },
+
+  "use_cases": [
+    {
+      "name": "Transaction Analysis",
+      "description": "Analyze transaction patterns and success rates",
+      "example_prompt": "Analyze transaction success rates by payment method for the last 30 days",
+      "security_level": "medium"
+    },
+    {
+      "name": "Database Schema Validation", 
+      "description": "Validate database schema changes and constraints",
+      "example_prompt": "Check if all foreign key constraints are properly defined",
+      "security_level": "low"
+    },
+    {
+      "name": "Performance Query Optimization",
+      "description": "Optimize slow database queries",
+      "example_prompt": "Analyze and optimize the slow queries in the transaction table",
+      "security_level": "medium"
+    },
+    {
+      "name": "Data Integrity Checks",
+      "description": "Verify data consistency across related tables",
+      "example_prompt": "Check for orphaned records in the transaction system",
+      "security_level": "high"
+    }
+  ],
+
+  "banking_specific": {
+    "compliance_requirements": [
+      "All queries must be logged for audit",
+      "No direct access to encrypted PII fields",
+      "Read-only access during production hours",
+      "Automatic data masking for sensitive fields"
+    ],
+    
+    "restricted_operations": [
+      "DELETE operations on transaction tables",
+      "UPDATE operations on audit logs",
+      "Direct access to customer credentials",
+      "Schema modifications without approval"
+    ],
+    
+    "monitoring": {
+      "log_all_queries": true,
+      "alert_on_sensitive_access": true,
+      "performance_monitoring": true,
+      "compliance_reporting": true
+    }
+  },
+
+  "triggers": {
+    "file_patterns": [
+      "backend/models/*.py",
+      "alembic/versions/*.py", 
+      "database/init/*.sql",
+      "**/test_database*.py"
+    ],
+    
+    "error_keywords": [
+      "database",
+      "postgresql", 
+      "sqlalchemy",
+      "connection",
+      "query",
+      "migration"
+    ],
+    
+    "context_keywords": [
+      "transaction processing",
+      "database performance",
+      "schema validation",
+      "data integrity",
+      "audit logging"
+    ]
+  },
+
+  "installation": {
+    "command": "npm install -g @modelcontextprotocol/server-postgres",
+    "requirements": [
+      "Node.js 18+",
+      "PostgreSQL client libraries",
+      "Network access to database"
+    ],
+    "post_install": [
+      "Configure database connection",
+      "Test connection security",
+      "Validate permissions"
+    ]
+  },
+
+  "examples": {
+    "queries": [
+      {
+        "name": "Transaction Volume Analysis",
+        "description": "Analyze daily transaction volumes",
+        "query": "SELECT DATE(created_at) as date, COUNT(*) as transaction_count, SUM(amount) as total_amount FROM transactions WHERE created_at >= CURRENT_DATE - INTERVAL '30 days' GROUP BY DATE(created_at) ORDER BY date;",
+        "use_case": "Business analytics"
+      },
+      {
+        "name": "Failed Transaction Investigation",
+        "description": "Find patterns in failed transactions",
+        "query": "SELECT status, failure_reason, COUNT(*) as count FROM transactions WHERE status = 'failed' AND created_at >= CURRENT_DATE - INTERVAL '7 days' GROUP BY status, failure_reason ORDER BY count DESC;",
+        "use_case": "Debugging and optimization"
+      }
+    ]
+  },
+
+  "metadata": {
+    "created": "2025-09-10",
+    "last_updated": "2025-09-10",
+    "maintainer": "Database Team",
+    "security_review": "2025-09-10"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "name": "filesystem",
+  "display_name": "File System MCP Server",
+  "description": "Advanced file system operations for Connected Banking Platform",
+  "category": "development",
+  "npm_package": "@modelcontextprotocol/server-filesystem",
+  "version": "latest",
+  "priority": "medium",
+  "banking_relevance": "medium",
+  
+  "configuration": {
+    "allowed_paths": [
+      "/Users/sreedeepnarayan/workspace/paywize/connected-banking",
+      "/tmp/banking-temp"
+    ],
+    
+    "blocked_paths": [
+      "/Users/sreedeepnarayan/workspace/paywize/connected-banking/.env",
+      "/Users/sreedeepnarayan/workspace/paywize/connected-banking/secrets",
+      "/Users/sreedeepnarayan/workspace/paywize/connected-banking/.ssh",
+      "**/node_modules/**",
+      "**/__pycache__/**"
+    ],
+    
+    "permissions": {
+      "read": true,
+      "write": true,
+      "execute": false,
+      "create_directories": true,
+      "delete": false
+    },
+    
+    "file_size_limits": {
+      "max_file_size": "10MB",
+      "max_directory_entries": 1000
+    }
+  },
+
+  "use_cases": [
+    {
+      "name": "Codebase Analysis",
+      "description": "Analyze code structure and dependencies across the platform",
+      "example_prompt": "Find all API endpoint files and analyze their structure",
+      "security_level": "low"
+    },
+    {
+      "name": "Configuration Management",
+      "description": "Manage configuration files and environment settings",
+      "example_prompt": "Update Docker configuration files across all services",
+      "security_level": "medium"
+    },
+    {
+      "name": "Documentation Generation",
+      "description": "Generate documentation from code comments and structure",
+      "example_prompt": "Extract API documentation from endpoint files",
+      "security_level": "low"
+    },
+    {
+      "name": "Refactoring Assistance",
+      "description": "Help with large-scale code refactoring operations",
+      "example_prompt": "Rename all instances of a function across the codebase",
+      "security_level": "high"
+    }
+  ],
+
+  "banking_specific": {
+    "security_requirements": [
+      "No access to production configuration files",
+      "Exclude sensitive credential files",
+      "Log all file operations",
+      "Restrict write operations to development files"
+    ],
+    
+    "protected_patterns": [
+      "*.env*",
+      "**/secrets/**",
+      "**/.ssh/**", 
+      "**/certificates/**",
+      "**/keys/**",
+      "**/*password*",
+      "**/*secret*",
+      "**/*key*"
+    ],
+    
+    "monitoring": {
+      "log_file_access": true,
+      "alert_on_sensitive_access": true,
+      "track_modifications": true
+    }
+  },
+
+  "triggers": {
+    "file_patterns": [
+      "large codebase operations",
+      "bulk file modifications",
+      "cross-file refactoring",
+      "documentation generation"
+    ],
+    
+    "context_keywords": [
+      "file search",
+      "bulk operations",
+      "refactoring",
+      "code analysis",
+      "documentation update"
+    ]
+  },
+
+  "common_operations": [
+    {
+      "name": "Find API Endpoints",
+      "description": "Locate all API endpoint definitions",
+      "pattern": "**/endpoints/*.py",
+      "action": "search"
+    },
+    {
+      "name": "Find Model Definitions",
+      "description": "Locate all database model files",
+      "pattern": "**/models/*.py",
+      "action": "search"
+    },
+    {
+      "name": "Find Configuration Files",
+      "description": "Locate configuration and settings files",
+      "pattern": ["**/config.py", "**/settings.py", "**/*.json", "**/*.yml"],
+      "action": "search"
+    },
+    {
+      "name": "Find Test Files",
+      "description": "Locate all test files",
+      "pattern": "**/test_*.py",
+      "action": "search"
+    }
+  ],
+
+  "installation": {
+    "command": "npm install -g @modelcontextprotocol/server-filesystem",
+    "requirements": [
+      "Node.js 18+",
+      "File system access permissions",
+      "Path restrictions configured"
+    ],
+    "post_install": [
+      "Configure allowed paths",
+      "Set up security restrictions",
+      "Test file operations"
+    ]
+  },
+
+  "metadata": {
+    "created": "2025-09-10",
+    "last_updated": "2025-09-10",
+    "maintainer": "Development Team",
+    "security_review": "2025-09-10"
+  }
+}

@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Connected Banking Platform - Commit Message Security Hook
+# Prevents commits with external author attribution
+# 
+# Installation: Copy this file to .git/hooks/commit-msg and make executable
+# Or run: make setup-git-hooks
+
+commit_msg_file="$1"
+commit_msg=$(cat "$commit_msg_file")
+
+# Check for unauthorized authorship patterns
+forbidden_patterns=(
+    "Co-Authored-By: Claude"
+    "Generated with.*Claude"
+    "claude.ai"
+    "anthropic.com"
+    "Co-Authored-By:.*Claude"
+    "Author:.*Claude"
+    "claude-"
+    "🤖.*Generated with"
+)
+
+# Colors for output
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+echo "🔒 PayWize Security: Validating commit message..."
+
+for pattern in "${forbidden_patterns[@]}"; do
+    if echo "$commit_msg" | grep -qi "$pattern"; then
+        echo -e "${RED}❌ COMMIT REJECTED${NC}"
+        echo -e "${RED}Forbidden authorship pattern detected: '$pattern'${NC}"
+        echo ""
+        echo -e "${YELLOW}PayWize Security Policy:${NC}"
+        echo "• All commits must only credit actual human contributors"
+        echo "• AI tool attributions are not permitted"
+        echo "• Remove any AI-generated signatures or co-author lines"
+        echo ""
+        echo -e "${YELLOW}To fix: Edit your commit message and remove the unauthorized attribution${NC}"
+        exit 1
+    fi
+done
+
+# Check for generic AI signatures
+if echo "$commit_msg" | grep -qi "generated with.*ai\|co-authored-by.*ai"; then
+    echo -e "${RED}❌ COMMIT REJECTED${NC}"
+    echo -e "${RED}AI tool attribution detected in commit message${NC}"
+    echo -e "${YELLOW}PayWize Policy: Only human contributors should be credited${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}✅ Commit message validation passed${NC}"
+exit 0

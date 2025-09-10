@@ -1,0 +1,151 @@
+{
+  "project_type": "banking_platform",
+  "domain": "financial_services",
+  "compliance_requirements": ["PCI_DSS", "banking_regulations", "audit_logging"],
+  
+  "technology_stack": {
+    "backend": {
+      "framework": "FastAPI",
+      "language": "Python",
+      "database": "PostgreSQL",
+      "cache": "Redis",
+      "orm": "SQLAlchemy"
+    },
+    "frontend": {
+      "framework": "React",
+      "language": "TypeScript",
+      "state_management": "Redux",
+      "ui_library": "Material-UI"
+    },
+    "infrastructure": {
+      "containerization": "Docker",
+      "orchestration": "Docker Compose",
+      "api_gateway": "Kong",
+      "monitoring": "Prometheus + Grafana"
+    }
+  },
+  
+  "business_context": {
+    "primary_function": "Merchant banking operations",
+    "key_integrations": ["Shivalik Bank", "Payment gateways", "KYC providers"],
+    "critical_features": [
+      "Virtual wallet management",
+      "Real-time transaction processing", 
+      "Automated fee collection",
+      "Merchant onboarding",
+      "Beneficiary management"
+    ]
+  },
+  
+  "development_phases": {
+    "current_phase": "Foundation",
+    "phase_description": "Core infrastructure and basic functionality",
+    "key_milestones": [
+      "Virtual wallet assignment system",
+      "Shivalik Bank integration",
+      "Merchant onboarding flow",
+      "Transaction processing"
+    ]
+  },
+  
+  "mcp_relevance": {
+    "high_priority_servers": {
+      "postgresql": {
+        "relevance_score": 9,
+        "reasons": [
+          "Core business data in PostgreSQL",
+          "Complex financial transaction queries",
+          "Audit logging requirements",
+          "Performance optimization needs"
+        ]
+      },
+      "fetch": {
+        "relevance_score": 8,
+        "reasons": [
+          "Extensive API integrations",
+          "External bank API testing",
+          "Webhook validation",
+          "Third-party service integration"
+        ]
+      }
+    },
+    
+    "medium_priority_servers": {
+      "filesystem": {
+        "relevance_score": 6,
+        "reasons": [
+          "Large codebase management",
+          "Configuration file management",
+          "Documentation generation",
+          "Code analysis tasks"
+        ]
+      },
+      "git": {
+        "relevance_score": 5,
+        "reasons": [
+          "Release management",
+          "Code review processes",
+          "Bug investigation",
+          "Audit trail requirements"
+        ]
+      }
+    }
+  },
+  
+  "context_triggers": {
+    "database_operations": [
+      "Working with transaction models",
+      "Database performance issues",
+      "Migration development",
+      "Data integrity checks",
+      "Audit log analysis"
+    ],
+    
+    "api_development": [
+      "Banking API integration",
+      "Webhook development",
+      "Payment gateway testing",
+      "Service health monitoring",
+      "Load testing"
+    ],
+    
+    "security_compliance": [
+      "PCI DSS validation",
+      "Audit log review",
+      "Access control testing",
+      "Encryption verification",
+      "Vulnerability assessment"
+    ],
+    
+    "performance_optimization": [
+      "Database query tuning",
+      "API response time optimization",
+      "Cache strategy implementation",
+      "Load balancing configuration",
+      "Resource utilization analysis"
+    ]
+  },
+  
+  "sensitive_areas": {
+    "restricted_operations": [
+      "Production database access",
+      "Live banking API calls",
+      "Customer PII access",
+      "Production secret management"
+    ],
+    
+    "security_requirements": [
+      "All operations must be logged",
+      "Sandbox environments only for testing",
+      "Data masking for sensitive information",
+      "Rate limiting for external APIs"
+    ]
+  },
+  
+  "metadata": {
+    "created": "2025-09-10",
+    "last_updated": "2025-09-10",
+    "version": "1.0.0",
+    "maintainer": "Connected Banking Platform Team"
+  }
+}

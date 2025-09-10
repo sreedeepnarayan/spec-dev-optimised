@@ -1,0 +1,220 @@
+{
+  "version": "1.0.0",
+  "project": "Spec-Kit Development Platform",
+  "description": "MCP server configurations for enhanced development workflows",
+  "updated": "2025-09-10",
+  
+  "categories": {
+    "database": {
+      "description": "Database operation and management MCP servers",
+      "priority": "high",
+      "use_cases": ["Database queries", "Schema management", "Performance optimization"]
+    },
+    "api": {
+      "description": "API development and testing MCP servers", 
+      "priority": "high",
+      "use_cases": ["API testing", "REST clients", "Integration testing"]
+    },
+    "security": {
+      "description": "Security analysis and vulnerability scanning MCP servers",
+      "priority": "critical",
+      "use_cases": ["Security scanning", "Secret detection", "Compliance checks"]
+    },
+    "monitoring": {
+      "description": "System monitoring and observability MCP servers",
+      "priority": "medium",
+      "use_cases": ["Log analysis", "Metrics collection", "Performance monitoring"]
+    },
+    "development": {
+      "description": "Development tools and workflow MCP servers",
+      "priority": "medium", 
+      "use_cases": ["Git operations", "Code analysis", "Documentation"]
+    },
+    "infrastructure": {
+      "description": "Infrastructure and DevOps MCP servers",
+      "priority": "medium",
+      "use_cases": ["Docker management", "Container orchestration", "Deployment"]
+    }
+  },
+
+  "recommended_servers": {
+    "postgresql": {
+      "category": "database",
+      "name": "PostgreSQL MCP Server",
+      "description": "Direct PostgreSQL database operations and queries",
+      "npm_package": "@modelcontextprotocol/server-postgres",
+      "priority": "high",
+      "development_relevance": "high",
+      "use_cases": [
+        "Database schema analysis",
+        "Query performance optimization", 
+        "Data integrity validation",
+        "Development database management"
+      ],
+      "triggers": [
+        "Working with /models/, /db/, /database/ directories",
+        "Database migration files",
+        "SQL query files",
+        "ORM model debugging"
+      ]
+    },
+    
+    "filesystem": {
+      "category": "development",
+      "name": "File System MCP Server", 
+      "description": "Advanced file system operations and searches",
+      "npm_package": "@modelcontextprotocol/server-filesystem",
+      "priority": "medium",
+      "development_relevance": "medium",
+      "use_cases": [
+        "Codebase analysis",
+        "File pattern matching",
+        "Bulk file operations",
+        "Project structure navigation"
+      ],
+      "triggers": [
+        "Large codebase refactoring",
+        "File organization tasks",
+        "Cross-file dependency analysis"
+      ]
+    },
+
+    "fetch": {
+      "category": "api",
+      "name": "Web Fetch MCP Server",
+      "description": "HTTP requests and API interactions",
+      "npm_package": "@modelcontextprotocol/server-fetch",
+      "priority": "high",
+      "development_relevance": "high", 
+      "use_cases": [
+        "REST API testing",
+        "External service integration",
+        "Webhook development and testing",
+        "API endpoint validation"
+      ],
+      "triggers": [
+        "API endpoint development",
+        "Third-party integration testing",
+        "Webhook debugging",
+        "External service connectivity"
+      ]
+    },
+
+    "git": {
+      "category": "development",
+      "name": "Git MCP Server",
+      "description": "Advanced Git operations and repository management",
+      "npm_package": "@modelcontextprotocol/server-git",
+      "priority": "medium", 
+      "development_relevance": "medium",
+      "use_cases": [
+        "Code history analysis",
+        "Branch management",
+        "Commit analysis",
+        "Deployment tracking"
+      ],
+      "triggers": [
+        "Code review processes",
+        "Release management",
+        "Bug investigation",
+        "Feature development tracking"
+      ]
+    },
+
+    "brave_search": {
+      "category": "development",
+      "name": "Brave Search MCP Server",
+      "description": "Web search for technical documentation and solutions",
+      "npm_package": "@modelcontextprotocol/server-brave-search",
+      "priority": "low",
+      "development_relevance": "low",
+      "use_cases": [
+        "Technical documentation lookup",
+        "Error solution research",
+        "Best practices research",
+        "Technology comparison"
+      ],
+      "triggers": [
+        "Unknown error messages",
+        "Technology research",
+        "Implementation guidance needed"
+      ]
+    }
+  },
+
+  "banking_specific_configs": {
+    "postgresql_banking": {
+      "description": "PostgreSQL configuration optimized for banking operations",
+      "security_requirements": [
+        "Row-level security enabled",
+        "Audit logging required",
+        "Read-only access for analysis",
+        "Encrypted connections only"
+      ],
+      "restricted_operations": [
+        "DELETE operations on transaction tables",
+        "Direct customer data access",
+        "Production schema modifications"
+      ]
+    },
+    
+    "api_banking": {
+      "description": "API testing configuration for banking services",
+      "security_requirements": [
+        "No production endpoint access",
+        "Sandbox environment only",
+        "API key rotation enabled",
+        "Request logging mandatory"
+      ],
+      "compliance_notes": [
+        "PCI DSS compliance required",
+        "Data masking for sensitive fields",
+        "Rate limiting enforced"
+      ]
+    }
+  },
+
+  "context_triggers": {
+    "file_patterns": {
+      "models/*.py": ["postgresql"],
+      "api/*/endpoints/*.py": ["fetch", "postgresql"],
+      "docker-compose.yml": ["postgresql"],
+      "requirements.txt": ["fetch"],
+      "alembic/versions/*.py": ["postgresql"],
+      "tests/": ["fetch", "postgresql"]
+    },
+    
+    "error_patterns": {
+      "database": ["postgresql"],
+      "connection": ["postgresql", "fetch"],
+      "sql": ["postgresql"],
+      "api": ["fetch"],
+      "http": ["fetch"],
+      "git": ["git"]
+    },
+    
+    "task_contexts": {
+      "database_migration": ["postgresql"],
+      "api_development": ["fetch", "postgresql"],
+      "testing": ["fetch", "postgresql"],
+      "debugging": ["postgresql", "git"],
+      "performance_optimization": ["postgresql"],
+      "security_audit": ["postgresql", "git"]
+    }
+  },
+
+  "user_preferences": {
+    "auto_suggest": true,
+    "suggestion_frequency": "contextual",
+    "preferred_notification_method": "inline",
+    "security_warnings": true,
+    "banking_compliance_checks": true
+  },
+
+  "metadata": {
+    "last_updated": "2025-09-10",
+    "config_version": "1.0.0",
+    "maintainer": "Connected Banking Platform Team",
+    "review_cycle": "monthly"
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "name": "fetch",
+  "display_name": "Web Fetch MCP Server",
+  "description": "HTTP requests and API testing for Connected Banking Platform",
+  "category": "api",
+  "npm_package": "@modelcontextprotocol/server-fetch",
+  "version": "latest",
+  "priority": "high",
+  "banking_relevance": "high",
+  
+  "configuration": {
+    "allowed_hosts": [
+      "localhost",
+      "127.0.0.1",
+      "api-sandbox.shivalikbank.com",
+      "uat.shivalikbank.com",
+      "httpbin.org",
+      "jsonplaceholder.typicode.com"
+    ],
+    
+    "blocked_hosts": [
+      "api.shivalikbank.com",
+      "production.shivalikbank.com",
+      "live.banking-api.com"
+    ],
+    
+    "security": {
+      "max_redirects": 3,
+      "timeout": 30000,
+      "verify_ssl": true,
+      "block_private_ips": false,
+      "allowed_content_types": [
+        "application/json",
+        "application/xml",
+        "text/plain",
+        "text/html"
+      ]
+    },
+    
+    "rate_limiting": {
+      "requests_per_minute": 60,
+      "burst_limit": 10,
+      "cooldown_period": 1000
+    }
+  },
+
+  "use_cases": [
+    {
+      "name": "Shivalik Bank API Testing",
+      "description": "Test integration with Shivalik Bank sandbox APIs",
+      "example_prompt": "Test the account balance API endpoint with our test credentials",
+      "security_level": "medium",
+      "endpoints": [
+        "/api/v1/accounts/balance",
+        "/api/v1/transactions/transfer",
+        "/api/v1/beneficiaries/validate"
+      ]
+    },
+    {
+      "name": "Webhook Testing",
+      "description": "Test webhook endpoints and payload validation",
+      "example_prompt": "Send a test webhook payload to our transaction status endpoint",
+      "security_level": "low",
+      "test_payloads": true
+    },
+    {
+      "name": "Third-party API Integration",
+      "description": "Test external APIs for KYC, SMS, and other services",
+      "example_prompt": "Test the KYC API integration with sample data",
+      "security_level": "high",
+      "data_masking": true
+    },
+    {
+      "name": "Load Testing Preparation",
+      "description": "Prepare and execute basic load tests",
+      "example_prompt": "Send concurrent requests to test API performance",
+      "security_level": "medium",
+      "concurrent_requests": true
+    }
+  ],
+
+  "banking_specific": {
+    "compliance_requirements": [
+      "All API calls must be logged",
+      "No production endpoints allowed",
+      "Sensitive data must be masked",
+      "Authentication tokens rotated regularly"
+    ],
+    
+    "security_controls": [
+      "Sandbox environment only", 
+      "Request/response logging",
+      "Rate limiting enforced",
+      "SSL/TLS verification required"
+    ],
+    
+    "test_data": {
+      "use_synthetic_data": true,
+      "mask_sensitive_fields": true,
+      "anonymize_customer_data": true,
+      "test_account_prefixes": ["TEST_", "DEMO_", "UAT_"]
+    }
+  },
+
+  "triggers": {
+    "file_patterns": [
+      "backend/api/*/endpoints/*.py",
+      "frontend/src/services/api.ts",
+      "tests/integration/test_api*.py",
+      "**/webhook*.py"
+    ],
+    
+    "error_keywords": [
+      "http",
+      "api",
+      "request",
+      "response",
+      "connection",
+      "timeout",
+      "webhook"
+    ],
+    
+    "context_keywords": [
+      "api testing",
+      "webhook development",
+      "third-party integration",
+      "performance testing",
+      "endpoint validation"
+    ]
+  },
+
+  "predefined_requests": {
+    "health_checks": [
+      {
+        "name": "Auth Service Health",
+        "url": "http://localhost:8001/health",
+        "method": "GET",
+        "expected_status": 200
+      },
+      {
+        "name": "Core Service Health", 
+        "url": "http://localhost:8002/health",
+        "method": "GET",
+        "expected_status": 200
+      },
+      {
+        "name": "Banking Service Health",
+        "url": "http://localhost:8003/health", 
+        "method": "GET",
+        "expected_status": 200
+      },
+      {
+        "name": "Wallet Service Health",
+        "url": "http://localhost:8004/health",
+        "method": "GET", 
+        "expected_status": 200
+      }
+    ],
+
+    "api_tests": [
+      {
+        "name": "Login API Test",
+        "url": "http://localhost:8001/api/v1/auth/login",
+        "method": "POST",
+        "body": {
+          "mobile_number": "9999999999",
+          "password": "test_password"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      {
+        "name": "Transaction Status Test",
+        "url": "http://localhost:8003/api/v1/transactions/status",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer ${TEST_TOKEN}"
+        }
+      }
+    ]
+  },
+
+  "installation": {
+    "command": "npm install -g @modelcontextprotocol/server-fetch",
+    "requirements": [
+      "Node.js 18+",
+      "Network connectivity",
+      "SSL certificate validation"
+    ],
+    "post_install": [
+      "Configure allowed hosts",
+      "Test security restrictions",
+      "Validate rate limiting"
+    ]
+  },
+
+  "metadata": {
+    "created": "2025-09-10",
+    "last_updated": "2025-09-10", 
+    "maintainer": "API Team",
+    "security_review": "2025-09-10"
+  }
+}

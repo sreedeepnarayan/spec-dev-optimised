@@ -1,0 +1,267 @@
+{
+  "version": "1.0.0",
+  "description": "Context-aware MCP server recommendation rules",
+  
+  "file_pattern_rules": {
+    "database_files": {
+      "patterns": [
+        "**/models/*.py",
+        "**/alembic/versions/*.py",
+        "**/database/**/*.sql",
+        "**/migrations/*.py"
+      ],
+      "recommended_servers": ["postgresql"],
+      "priority": "high",
+      "reason": "Database-related files detected - PostgreSQL MCP server recommended for direct database operations"
+    },
+    
+    "api_files": {
+      "patterns": [
+        "**/api/**/*.py",
+        "**/endpoints/*.py",
+        "**/services/api.ts",
+        "**/webhook*.py"
+      ],
+      "recommended_servers": ["fetch", "postgresql"],
+      "priority": "high", 
+      "reason": "API-related files detected - Fetch MCP server for testing, PostgreSQL for data validation"
+    },
+    
+    "frontend_files": {
+      "patterns": [
+        "**/frontend/**/*.ts",
+        "**/frontend/**/*.tsx",
+        "**/components/**/*.tsx",
+        "**/pages/**/*.tsx"
+      ],
+      "recommended_servers": ["fetch"],
+      "priority": "medium",
+      "reason": "Frontend files detected - Fetch MCP server useful for API integration testing"
+    },
+    
+    "config_files": {
+      "patterns": [
+        "**/config.py",
+        "**/settings.py", 
+        "**/*.yml",
+        "**/*.yaml",
+        "**/docker-compose.yml",
+        "**/Dockerfile"
+      ],
+      "recommended_servers": ["filesystem"],
+      "priority": "medium",
+      "reason": "Configuration files detected - Filesystem MCP server helpful for bulk operations"
+    },
+    
+    "test_files": {
+      "patterns": [
+        "**/test_*.py",
+        "**/tests/**/*.py",
+        "**/*.test.ts",
+        "**/*.spec.ts"
+      ],
+      "recommended_servers": ["fetch", "postgresql"],
+      "priority": "medium",
+      "reason": "Test files detected - Both Fetch and PostgreSQL servers useful for comprehensive testing"
+    }
+  },
+  
+  "error_pattern_rules": {
+    "database_errors": {
+      "keywords": [
+        "sqlalchemy",
+        "postgresql", 
+        "database connection",
+        "query timeout",
+        "foreign key",
+        "constraint violation",
+        "migration error"
+      ],
+      "recommended_servers": ["postgresql"],
+      "priority": "critical",
+      "reason": "Database errors detected - PostgreSQL MCP server essential for diagnosis and resolution"
+    },
+    
+    "api_errors": {
+      "keywords": [
+        "http error",
+        "api timeout",
+        "connection refused",
+        "404 not found",
+        "500 internal server",
+        "webhook failed",
+        "request timeout"
+      ],
+      "recommended_servers": ["fetch"],
+      "priority": "high",
+      "reason": "API/HTTP errors detected - Fetch MCP server needed for endpoint testing and debugging"
+    },
+    
+    "git_errors": {
+      "keywords": [
+        "git merge conflict",
+        "repository error",
+        "commit failed",
+        "branch protection",
+        "push rejected"
+      ],
+      "recommended_servers": ["git"],
+      "priority": "medium",
+      "reason": "Git-related errors detected - Git MCP server helpful for repository operations"
+    }
+  },
+  
+  "task_context_rules": {
+    "database_migration": {
+      "indicators": [
+        "migration",
+        "schema change",
+        "database update",
+        "alembic",
+        "model modification"
+      ],
+      "recommended_servers": ["postgresql"],
+      "priority": "critical",
+      "reason": "Database migration task - PostgreSQL MCP server essential for schema validation and testing"
+    },
+    
+    "api_development": {
+      "indicators": [
+        "api endpoint",
+        "rest api",
+        "webhook development",
+        "integration testing",
+        "api documentation"
+      ],
+      "recommended_servers": ["fetch", "postgresql"],
+      "priority": "high",
+      "reason": "API development task - Fetch server for testing, PostgreSQL for data operations"
+    },
+    
+    "banking_integration": {
+      "indicators": [
+        "shivalik bank",
+        "payment gateway",
+        "transaction processing",
+        "banking api",
+        "financial integration"
+      ],
+      "recommended_servers": ["fetch", "postgresql"],
+      "priority": "critical",
+      "reason": "Banking integration task - Critical for financial data operations and API testing"
+    },
+    
+    "security_audit": {
+      "indicators": [
+        "security review",
+        "vulnerability scan",
+        "compliance check",
+        "audit logging",
+        "access control"
+      ],
+      "recommended_servers": ["postgresql", "git"],
+      "priority": "high",
+      "reason": "Security audit task - Database for audit logs, Git for change history analysis"
+    },
+    
+    "performance_optimization": {
+      "indicators": [
+        "performance tuning",
+        "slow query",
+        "optimization",
+        "bottleneck analysis",
+        "load testing"
+      ],
+      "recommended_servers": ["postgresql", "fetch"],
+      "priority": "high",
+      "reason": "Performance optimization - Database queries and API response time analysis needed"
+    },
+    
+    "code_refactoring": {
+      "indicators": [
+        "refactoring",
+        "code cleanup",
+        "restructuring",
+        "bulk changes",
+        "codebase reorganization"
+      ],
+      "recommended_servers": ["filesystem", "git"],
+      "priority": "medium",
+      "reason": "Code refactoring task - Filesystem for bulk operations, Git for change tracking"
+    }
+  },
+  
+  "service_context_rules": {
+    "services_running": {
+      "condition": "multiple_services_healthy",
+      "recommended_servers": ["fetch", "postgresql"],
+      "priority": "medium",
+      "reason": "Services are running - API testing and database operations available"
+    },
+    
+    "services_down": {
+      "condition": "services_unhealthy",
+      "recommended_servers": ["fetch"],
+      "priority": "high",
+      "reason": "Service issues detected - Fetch server useful for debugging connectivity problems"
+    },
+    
+    "database_accessible": {
+      "condition": "postgresql_port_open",
+      "recommended_servers": ["postgresql"],
+      "priority": "high",
+      "reason": "Database is accessible - PostgreSQL MCP server can provide direct query capabilities"
+    }
+  },
+  
+  "time_based_rules": {
+    "business_hours": {
+      "time_range": "09:00-17:00",
+      "additional_considerations": [
+        "Prefer read-only database operations",
+        "Use sandbox APIs only",
+        "Enable enhanced logging"
+      ]
+    },
+    
+    "maintenance_hours": {
+      "time_range": "02:00-06:00", 
+      "additional_considerations": [
+        "Allow database maintenance operations",
+        "Enable schema modification capabilities",
+        "Reduced rate limiting"
+      ]
+    }
+  },
+  
+  "security_constraints": {
+    "production_environment": {
+      "blocked_servers": ["postgresql_production"],
+      "restricted_operations": [
+        "schema modifications",
+        "bulk data operations",
+        "production API calls"
+      ]
+    },
+    
+    "development_environment": {
+      "allowed_servers": ["postgresql", "fetch", "filesystem", "git"],
+      "enhanced_logging": true,
+      "sandbox_only": true
+    }
+  },
+  
+  "priority_weights": {
+    "critical": 10,
+    "high": 7,
+    "medium": 4,
+    "low": 1
+  },
+  
+  "metadata": {
+    "created": "2025-09-10",
+    "last_updated": "2025-09-10",
+    "version": "1.0.0",
+    "rule_count": 23
+  }
+}

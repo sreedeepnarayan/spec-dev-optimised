@@ -1,0 +1,169 @@
+{
+  "name": "git",
+  "display_name": "Git MCP Server", 
+  "description": "Advanced Git operations for Connected Banking Platform",
+  "category": "development",
+  "npm_package": "@modelcontextprotocol/server-git",
+  "version": "latest",
+  "priority": "medium",
+  "banking_relevance": "medium",
+  
+  "configuration": {
+    "repository_path": "/Users/sreedeepnarayan/workspace/paywize/connected-banking",
+    
+    "permissions": {
+      "read": true,
+      "write": false,
+      "push": false,
+      "force_operations": false
+    },
+    
+    "security": {
+      "block_sensitive_files": true,
+      "audit_all_operations": true,
+      "require_signed_commits": false
+    },
+    
+    "branch_restrictions": {
+      "protected_branches": ["main", "production", "release/*"],
+      "allow_branch_creation": true,
+      "require_pr_for_main": true
+    }
+  },
+
+  "use_cases": [
+    {
+      "name": "Code History Analysis",
+      "description": "Analyze code evolution and change patterns",
+      "example_prompt": "Show the evolution of the transaction processing code over the last month",
+      "security_level": "low"
+    },
+    {
+      "name": "Bug Investigation",
+      "description": "Investigate when and how bugs were introduced",
+      "example_prompt": "Find when the authentication bug was introduced and who made the change",
+      "security_level": "medium"
+    },
+    {
+      "name": "Release Management",
+      "description": "Track releases and deployment history",
+      "example_prompt": "Generate release notes for the current sprint",
+      "security_level": "low"
+    },
+    {
+      "name": "Code Review Assistance",
+      "description": "Analyze changes for code review",
+      "example_prompt": "Review the changes in the latest pull request for security issues",
+      "security_level": "medium"
+    }
+  ],
+
+  "banking_specific": {
+    "compliance_requirements": [
+      "All Git operations must be logged",
+      "No force pushes to protected branches",
+      "Sensitive files must be tracked in .gitignore",
+      "Commit messages must follow audit standards"
+    ],
+    
+    "security_controls": [
+      "Read-only operations only",
+      "No access to production branches", 
+      "Audit trail for all operations",
+      "Block sensitive file operations"
+    ],
+    
+    "protected_files": [
+      ".env*",
+      "secrets/*",
+      "certificates/*",
+      "*.key",
+      "*.pem",
+      "*password*"
+    ]
+  },
+
+  "triggers": {
+    "context_keywords": [
+      "code history",
+      "bug investigation", 
+      "release management",
+      "change analysis",
+      "commit history",
+      "branch management"
+    ],
+    
+    "error_keywords": [
+      "git",
+      "commit",
+      "branch",
+      "merge",
+      "conflict"
+    ]
+  },
+
+  "common_operations": [
+    {
+      "name": "Show Recent Changes",
+      "description": "Display recent commits and changes",
+      "command": "git log --oneline -10"
+    },
+    {
+      "name": "Find Changes by Author",
+      "description": "Show commits by specific author",
+      "command": "git log --author='${AUTHOR}' --oneline"
+    },
+    {
+      "name": "Show File History", 
+      "description": "Display history of a specific file",
+      "command": "git log --follow -- ${FILE_PATH}"
+    },
+    {
+      "name": "Branch Status",
+      "description": "Show current branch status and differences",
+      "command": "git status && git diff --stat"
+    },
+    {
+      "name": "Find Bug Introduction",
+      "description": "Use git bisect to find when a bug was introduced",
+      "command": "git log --grep='${SEARCH_TERM}' --oneline"
+    }
+  ],
+
+  "reporting": {
+    "commit_analysis": {
+      "frequency_analysis": true,
+      "author_statistics": true,
+      "file_change_patterns": true,
+      "commit_message_analysis": true
+    },
+    
+    "security_checks": {
+      "sensitive_file_commits": true,
+      "large_file_additions": true,
+      "force_push_attempts": true,
+      "branch_protection_violations": true
+    }
+  },
+
+  "installation": {
+    "command": "npm install -g @modelcontextprotocol/server-git",
+    "requirements": [
+      "Node.js 18+",
+      "Git installed and configured",
+      "Repository access permissions"
+    ],
+    "post_install": [
+      "Configure repository path",
+      "Set up security restrictions", 
+      "Test Git operations"
+    ]
+  },
+
+  "metadata": {
+    "created": "2025-09-10",
+    "last_updated": "2025-09-10",
+    "maintainer": "Development Team",
+    "security_review": "2025-09-10"
+  }
+}
