@@ -41,7 +41,8 @@ help:
 	@echo "  mcp-suggest-quick - Quick MCP recommendations only"
 	@echo "  mcp-examples   - Show MCP usage examples"
 	@echo "  mcp-docs       - Generate MCP documentation"
-	@echo "  mcp-auto-suggest - Automatic context-based suggestions"
+	@echo "  ai-auto-suggest  - Automatic AI development assistance (subagents + MCP)"
+	@echo "  mcp-auto-suggest - Automatic context-based MCP suggestions"
 	@echo ""
 	@echo "$(GREEN)🔒 Security & Git:$(NC)"
 	@echo "  setup-git-hooks - Install security git hooks"
@@ -77,7 +78,7 @@ dev-start:
 	@echo "$(BLUE)Starting development environment...$(NC)"
 	$(MAKE) setup
 	@echo "$(GREEN)Development environment ready!$(NC)"
-	@$(MAKE) mcp-auto-suggest
+	@$(MAKE) ai-auto-suggest
 
 test:
 	@echo "$(BLUE)Running tests...$(NC)"
@@ -92,6 +93,7 @@ test:
 	else \
 		echo "$(YELLOW)No test framework detected$(NC)"; \
 	fi
+	@$(MAKE) ai-auto-suggest
 
 lint:
 	@echo "$(BLUE)Running code linting...$(NC)"
@@ -106,6 +108,7 @@ lint:
 	else \
 		echo "$(YELLOW)No linting configuration detected$(NC)"; \
 	fi
+	@$(MAKE) ai-auto-suggest
 
 format:
 	@echo "$(BLUE)Auto-formatting code...$(NC)"
@@ -120,6 +123,7 @@ format:
 	else \
 		echo "$(YELLOW)No formatting configuration detected$(NC)"; \
 	fi
+	@$(MAKE) ai-auto-suggest
 
 quality-check:
 	@echo "$(BLUE)Running comprehensive quality checks...$(NC)"
@@ -157,7 +161,7 @@ health:
 		echo "$(YELLOW)⚠️  MCP integration: Not found$(NC)"; \
 	fi
 	@echo ""
-	@$(MAKE) mcp-auto-suggest
+	@$(MAKE) ai-auto-suggest
 
 # AI Development Commands
 ai-context:
@@ -239,6 +243,10 @@ mcp-docs:
 	@echo "" >> mcp-docs-output.md
 	@cat .mcp/mcp-config.json | jq -r '.recommended_servers | to_entries[] | "## \(.value.name)\n\(.value.description)\n\nUse cases:\n\(.value.use_cases[] | "- \(.)")\n"' >> mcp-docs-output.md 2>/dev/null || echo "Configuration file needs jq for full documentation" >> mcp-docs-output.md
 	@echo "$(GREEN)MCP documentation generated in mcp-docs-output.md$(NC)"
+
+ai-auto-suggest:
+	@echo "$(BLUE)Running automatic AI development assistance...$(NC)"
+	@./.mcp/scripts/ai-auto-suggest.sh --quick
 
 mcp-auto-suggest:
 	@echo "$(BLUE)Running automatic MCP context analysis...$(NC)"
